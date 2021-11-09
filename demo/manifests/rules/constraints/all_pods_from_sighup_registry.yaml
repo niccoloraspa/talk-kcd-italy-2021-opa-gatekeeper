@@ -1,0 +1,11 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: TrustedImageRegistry
+metadata:
+  name: all-pods-from-sighup-registry
+spec:
+  match:
+    kinds:
+      - apiGroups: ["*"]
+        kinds: ["Pod"]
+  parameters:
+    trustedRegistry: "registry.sighup.io"

@@ -1,0 +1,50 @@
+# Copyright (c) 2020 SIGHUP s.r.l All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+---
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8suniqueingresshost
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sUniqueIngressHost
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8suniqueingresshost
+
+        violation[{"msg": msg}] {
+          input.review.kind.kind == "Ingress"
+          re_match("^(extensions|networking.k8s.io)$", input.review.kind.group)
+          input.review.kind.version == "v1"
+
+          some i
+          input_name := input.review.object.metadata.name
+          input_host := input.review.object.spec.rules[i].host
+          input_paths := { x | x := input.review.object.spec.rules[i].http.paths[_].path }
+          input_ns := input.review.object.metadata.namespace
+
+          some other_ns, other_name, other_group_version, j
+          other_ingress := data.inventory.namespace[other_ns][other_group_version]["Ingress"][other_name]
+          other_host := other_ingress.spec.rules[j].host
+          other_paths := { x | x := other_ingress.spec.rules[j].http.paths[_].path }
+
+          # apigroup/version check
+          concat("/",[ x | x := [input.review.kind.group, input.review.kind.version][_]; x != ""]) == other_group_version
+
+          # if not the same resource (namespace and name) => false
+          [input_ns, input_name] != [other_ns, other_name]
+
+          ## if not the same host => false
+          input_host == other_host
+
+          ## if no common paths => false
+          common_paths := input_paths & other_paths
+          count(common_paths) != 0
+
+          msg := sprintf("Ingress %v/%v host conflicts with ingress %v/%v: ( '%v' ) & ( '%v' ) = ( '%v' )", [input_ns, input_name, other_ns, other_name, concat("', '",input_paths), concat("', '",other_paths), common_paths[_]])
+        }

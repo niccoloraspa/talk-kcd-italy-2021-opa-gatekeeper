@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bad
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: good
+  labels:
+    kcd-italy: "2021"
+---
