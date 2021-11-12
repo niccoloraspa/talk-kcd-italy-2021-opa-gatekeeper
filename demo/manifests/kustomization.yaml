@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 # Deploy OPA Gatekeeper
 - fury-kubernetes-opa/gatekeeper/core/
+- fury-kubernetes-opa/gatekeeper/rules/config/
 
 # Deploy Gatekeeper Policy Manager
 - fury-kubernetes-opa/gatekeeper/gpm/

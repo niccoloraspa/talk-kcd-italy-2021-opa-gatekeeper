@@ -5,7 +5,10 @@ metadata:
 spec:
   match:
     kinds:
-      - apiGroups: ["*"]
+      - apiGroups: [""]
         kinds: ["Pod"]
+    # namespaces:
+    #   - "default"
   parameters:
-    trustedRegistry: "registry.sighup.io"
+    registry: "registry.sighup.io"
+    
