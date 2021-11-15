@@ -2,7 +2,7 @@
 
 # KCD Italy 2021 Demo 🍕 ☸️
 
-Repository for the demo of the talk *"Tu non puoi passare! Policy compliance con OPA Gatekeeper"* presented at KCD Italy 2021.
+Repository for the demo of the talk *"Tu non puoi passare! Policy compliance con OPA Gatekeeper"* presented at **KCD Italy 2021** 🇮🇹.
 
 ## Cluster Setup
 
@@ -14,21 +14,21 @@ make minikube
 
 ## OPA Gatekeeper and Gatekeeper Policy Manager Installation
 
-1. Deploy OPA Gatekeeper 3.5
+1. Deploy OPA Gatekeeper 3.5:
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/release-3.5/deploy/gatekeeper.yaml
 # Local version available at ./manifests/gatekeeper.yaml
 ```
 
-2. Deploy Gatekeeper Policy Manager v0.5.0
+2. Deploy Gatekeeper Policy Manager v0.5.0:
 
 ```bash
 kubectl apply -k https://github.com/sighupio/gatekeeper-policy-manager/
 # Local version available at ./manifests/gatekeeper-policy-manager.yaml
 ```
 
-3. Port forward Gatekeeper Policy Manager UI on `localhost:8080`
+3. Port forward Gatekeeper Policy Manager UI on `localhost:8080`:
 
 ```bash
 kubectl port-forward svc/gatekeeper-policy-manager -n gatekeeper-system 8080:80 &
@@ -36,7 +36,7 @@ kubectl port-forward svc/gatekeeper-policy-manager -n gatekeeper-system 8080:80 
 
 ## OPA Policy #1 - Mandatory label in namespaces
 
-1. Create our first `ContraintTemplate`
+1. Create our first `ContraintTemplate`:
 
 ```bash
 kubectl apply -f manifests/rules/0-ns-require-labels/template.yaml
@@ -57,7 +57,7 @@ NAME                     AGE
 namespacerequirelabels   6m48s
 ```
 
-Check the new CRD that gets created:
+3. Check the new CRD that gets created:
 
 ```bash
 kubectl get crd | grep constraints
@@ -69,7 +69,7 @@ Expected Output:
 namespacerequirelabels.constraints.gatekeeper.sh     2021-11-15T13:52:53Z
 ```
 
-3. Instantiate the template with a `Constraint`
+4. Instantiate the template with a `Constraint`:
 
 ```bash
 kubectl apply -f manifests/rules/0-ns-require-labels/require-kcd-italy-label/constraint.yaml
@@ -77,7 +77,7 @@ kubectl apply -f manifests/rules/0-ns-require-labels/require-kcd-italy-label/con
 
 > `Constraints` are used to actually enforce a `ConstraintTemplate`
 
-4. Check creation:
+5. Inspect new resources:
 
 ```bash
 kubectl get constraints
@@ -90,7 +90,7 @@ NAME                           AGE
 ns-must-have-kcd-italy-label   9s
 ```
 
-5. Test creation of a namespace `bad` without the `kcd-italy` label
+6. Test creation of a namespace `bad` without the `kcd-italy` label:
 
 ```bash
 kubectl create ns bad
@@ -103,7 +103,7 @@ Expected output:
 Error from server ([ns-must-have-kcd-italy-label] you must provide labels: {"kcd-italy"}): admission webhook "validation.gatekeeper.sh" denied the request: [ns-must-have-kcd-italy-label] you must provide labels: {"kcd-italy"}
 ```
 
-6. Test creation of a namespace `good` **with** the `kcd-italy` label
+7. Test creation of a namespace `good` **with** the `kcd-italy` label:
 
 ```bash
 kubectl apply -f manifests/rules/0-ns-require-labels/require-kcd-italy-label/example_allowed.yaml
@@ -117,7 +117,7 @@ namespace/good unchanged
 
 ## OPA Policy #2 - Pod from trusted registries
 
-1. Create the `ContraintTemplate` and the `Constaint`
+1. Create the `ContraintTemplate` and the `Constaint`:
 
 ```bash
 kubectl apply -f manifests/rules/1-pod-from-trusted-registry/template.yaml
@@ -195,7 +195,7 @@ kubectl describe rs $(kubectl get rs -o jsonpath='{.items[*].metadata.name}' | g
 
 ## OPA Policy #3 - Unique ingress names
 
-1. Create the `ContraintTemplate` and the `Constaint`
+1. Create the `ContraintTemplate` and the `Constaint`:
 
 ```bash
 kubectl apply -f manifests/rules/2-unique-ingress-host/template.yaml
@@ -231,7 +231,7 @@ ingress.networking.k8s.io/ingress-host-1 created
 ingress.networking.k8s.io/ingress-host-2 created
 ```
 
-The `Constraint` is correct but it's not working as we have not replicated data to Gatekeeper.
+The `Constraint` is correct, but it's not working as we have not replicated any data to Gatekeeper.
 
 4. Deploy necessary config:
 
@@ -258,7 +258,7 @@ Error from server ([unique-ingress-host] Ingress host conflicts with an existing
 
 ## Cleanup
 
-1. Delete minikube cluster;
+1. Delete minikube cluster:
 
 ```bash
 make delete
