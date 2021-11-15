@@ -1,10 +1,10 @@
 ![KCD Italy Banner](./assets/kcd_banner.jpeg)
 
-# KCD Italy 2021 Demo 🍕 ☸️
+# KCD Italy 2021 Demo 🍕 ☸️🇮🇹
 
 Repository for the demo of the talk *"Tu non puoi passare! Policy compliance con OPA Gatekeeper"* presented at **KCD Italy 2021** 🇮🇹.
 
-## Cluster Setup
+## ☸️ Setup Minikube Cluster
 
 1. Create minikube cluster
 
@@ -12,7 +12,7 @@ Repository for the demo of the talk *"Tu non puoi passare! Policy compliance con
 make minikube
 ```
 
-## OPA Gatekeeper and Gatekeeper Policy Manager Installation
+## 🔨 Deploy OPA Gatekeeper and Gatekeeper Policy Manager
 
 1. Deploy OPA Gatekeeper 3.5:
 
@@ -34,7 +34,9 @@ kubectl apply -k https://github.com/sighupio/gatekeeper-policy-manager/
 kubectl port-forward svc/gatekeeper-policy-manager -n gatekeeper-system 8080:80 &
 ```
 
-## OPA Policy #1 - Mandatory label in namespaces
+## 🚔 Deploy OPA Policies
+
+### ⛔ Policy #1 - Mandatory label in namespaces
 
 1. Create our first `ContraintTemplate`:
 
@@ -115,7 +117,7 @@ Expected output:
 namespace/good unchanged
 ```
 
-## OPA Policy #2 - Pod from trusted registries
+### ⛔ Policy #2 - Pod from trusted registries
 
 1. Create the `ContraintTemplate` and the `Constaint`:
 
@@ -195,7 +197,7 @@ Try to inspect the related `ReplicaSet`:
 kubectl describe rs $(kubectl get rs -o jsonpath='{.items[*].metadata.name}' | grep nginx-deploy)
 ```
 
-## OPA Policy #3 - Unique ingress names
+### ⛔ Policy #3 - Unique ingress names
 
 1. Create the `ContraintTemplate` and the `Constaint`:
 
@@ -258,7 +260,7 @@ Error from server ([unique-ingress-host] Ingress host conflicts with an existing
 [unique-ingress-host] Ingress host conflicts with an existing Ingress <example-host.example.com>
 ```
 
-## Cleanup
+## 🧹 Cleanup
 
 1. Delete minikube cluster:
 
@@ -266,7 +268,7 @@ Error from server ([unique-ingress-host] Ingress host conflicts with an existing
 make delete
 ```
 
-## Additional Resources
+## 📖 Additional Resources
 
 - [OPA Gatekeeper documentation](https://open-policy-agent.github.io/gatekeeper/website/docs/)
 - [OPA Gatekeeper Library](https://github.com/open-policy-agent/gatekeeper-library)
