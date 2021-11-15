@@ -1,0 +1,28 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: trustedimageregistry
+spec:
+  crd:
+    spec:
+      names:
+        kind: TrustedImageRegistry
+      validation:
+        # Schema for the `parameters` field
+        openAPIV3Schema:
+          properties:
+            registry:
+              type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package trustedimageregistry
+
+        violation[{"msg": msg}] {
+          image := input.review.object.spec.containers[_].image                    
+          trusted_registry := input.parameters.registry
+          not startswith(image, trusted_registry)                                       
+          msg := sprintf("image '%v' comes from untrusted registry", [image])      
+        }
+
+      # anything missing? :)
