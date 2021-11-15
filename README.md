@@ -114,7 +114,7 @@ kubectl apply -f manifests/rules/0-ns-require-labels/require-kcd-italy-label/exa
 Expected output:
 
 ```bash
-namespace/good unchanged
+namespace/good created
 ```
 
 ### ⛔ Policy #2 - Pod from trusted registries
