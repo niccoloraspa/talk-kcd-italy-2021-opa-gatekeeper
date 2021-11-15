@@ -119,7 +119,7 @@ namespace/good unchanged
 
 ### ⛔ Policy #2 - Pod from trusted registries
 
-1. Create the `ContraintTemplate` and the `Constaint`:
+1. Create the `ContraintTemplate` and the `Constraint`:
 
 ```bash
 kubectl apply -f manifests/rules/1-pod-from-trusted-registry/template.yaml
@@ -199,7 +199,7 @@ kubectl describe rs $(kubectl get rs -o jsonpath='{.items[*].metadata.name}' | g
 
 ### ⛔ Policy #3 - Unique ingress names
 
-1. Create the `ContraintTemplate` and the `Constaint`:
+1. Create the `ContraintTemplate` and the `Constraint`:
 
 ```bash
 kubectl apply -f manifests/rules/2-unique-ingress-host/template.yaml
