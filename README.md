@@ -140,7 +140,7 @@ NAME                                                                           A
 trustedimageregistry.constraints.gatekeeper.sh/all-pods-from-sighup-registry   9s
 ```
 
-3. Test the `Constraint`:
+3. Test that the `Constraint` allows a `registry.sighup.io/workshop/nginx` image:
 
 ```bash
 kubectl apply -f manifests/rules/1-pod-from-trusted-registry/trust-sighup-registry/example_allowed.yaml
@@ -152,6 +152,8 @@ Expected Output:
 pod/good-pod created
 ```
 
+4. Test that the `Constraint` **does not allow** a `nginx` image:
+
 ```bash
 kubectl apply -f manifests/rules/1-pod-from-trusted-registry/trust-sighup-registry/example_disallowed.yaml
 ```
@@ -162,7 +164,7 @@ Expected Output:
 Error from server ([all-pods-from-sighup-registry] image 'nginx' comes from untrusted registry): error when creating "manifests/rules/1-pod-from-trusted-registry/trust-sighup-registry/example_disallowed.yaml": admission webhook "validation.gatekeeper.sh" denied the request: [all-pods-from-sighup-registry] image 'nginx' comes from untrusted registry
 ```
 
-4. Try to create a deployment with an untrusted registry. What happens?
+5. Try to create a deployment with an untrusted registry. What happens?
 
 ```bash
 kubectl create deployment nginx-deploy --image nginx --replicas 10
@@ -263,3 +265,9 @@ Error from server ([unique-ingress-host] Ingress host conflicts with an existing
 ```bash
 make delete
 ```
+
+## Additional Resources
+
+- [OPA Gatekeeper documentation](https://open-policy-agent.github.io/gatekeeper/website/docs/)
+- [OPA Gatekeeper Library](https://github.com/open-policy-agent/gatekeeper-library)
+- [OPA documentation](https://www.openpolicyagent.org/docs/latest/)
