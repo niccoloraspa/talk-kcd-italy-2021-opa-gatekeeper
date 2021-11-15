@@ -137,9 +137,12 @@ Expected Output:
 ```bash
 NAME                                                              AGE
 constrainttemplate.templates.gatekeeper.sh/trustedimageregistry   18s
+# ... hiding other constrainttemplates for brevity
 
 NAME                                                                           AGE
 trustedimageregistry.constraints.gatekeeper.sh/all-pods-from-sighup-registry   9s
+
+# ... hiding other constraints for brevity
 ```
 
 3. Test that the `Constraint` allows a `registry.sighup.io/workshop/nginx` image:
@@ -217,9 +220,12 @@ Expected Output:
 ```bash
 NAME                                                              AGE
 constrainttemplate.templates.gatekeeper.sh/k8suniqueingresshost   6m3s
+# ... hiding other constrainttemplates for brevity
 
 NAME                                                                 AGE
 k8suniqueingresshost.constraints.gatekeeper.sh/unique-ingress-host   5m13s
+
+# ... hiding other constraints for brevity
 ```
 
 3. Test the `Constraint`:
