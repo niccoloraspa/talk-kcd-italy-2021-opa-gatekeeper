@@ -2,7 +2,9 @@
 
 # KCD Italy 2021 Demo 🍕 ☸️🇮🇹
 
-Repository for the demo of the talk *"Tu non puoi passare! Policy compliance con OPA Gatekeeper"* presented at **KCD Italy 2021** 🇮🇹.
+Repository for the talk *"Tu non puoi passare! Policy compliance con OPA Gatekeeper"* presented at **KCD Italy 2021** 🇮🇹.
+
+> Slides are available under [./slides/](./slides/)
 
 ## ☸️ Setup Minikube Cluster
 
