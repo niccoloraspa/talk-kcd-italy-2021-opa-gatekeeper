@@ -33,7 +33,7 @@ kubectl apply -k https://github.com/sighupio/gatekeeper-policy-manager/
 3. Port forward Gatekeeper Policy Manager UI on `localhost:8080`:
 
 ```bash
-kubectl port-forward svc/gatekeeper-policy-manager -n gatekeeper-system 8080:80 &
+kubectl port-forward svc/gatekeeper-policy-manager -n gatekeeper-system 8080:80 2>&1 >/dev/null &
 ```
 
 ## 🚔 Deploy OPA Policies
